@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - NavCart Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--primary:#6366f1;--success:#10b981;--danger:#ef4444;--dark:#0f172a;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-500:#64748b;--radius-xl:1.5rem}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--dark)}
+        .sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:var(--dark);color:white;padding:2rem 1.5rem}
+        .sidebar-logo{display:flex;align-items:center;gap:0.75rem;font-size:1.5rem;font-weight:800;margin-bottom:2rem}
+        .nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border-radius:0.75rem;color:rgba(255,255,255,0.8);text-decoration:none;margin-bottom:0.5rem;transition:all 0.3s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.1);color:white}
+        .main{margin-left:260px;padding:2rem}
+        .settings-card{background:white;border-radius:var(--radius-xl);padding:2rem;border:1px solid var(--gray-200);margin-bottom:2rem}
+        .settings-card h2{font-size:1.25rem;margin-bottom:1.5rem}
+        .form-group{margin-bottom:1.5rem}
+        .form-group label{display:block;margin-bottom:0.5rem;font-weight:500}
+        .form-group input,.form-group select{width:100%;padding:0.875rem;border:2px solid var(--gray-200);border-radius:0.75rem;font-family:inherit}
+        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary)}
+        .btn-primary{background:var(--primary);color:white;border:none;padding:0.875rem 2rem;border-radius:0.75rem;font-weight:600;cursor:pointer}
+        .btn-danger{background:var(--danger);color:white;border:none;padding:0.875rem 2rem;border-radius:0.75rem;font-weight:600;cursor:pointer}
+        .admin-list{display:grid;gap:1rem}
+        .admin-item{display:flex;justify-content:space-between;align-items:center;padding:1rem;background:var(--gray-100);border-radius:0.75rem}
+        @media(max-width:1024px){.sidebar{display:none}.main{margin-left:0}}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="fas fa-shopping-bag" style="color:var(--primary)"></i> NavCart</div>
+        <nav>
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="admin-products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="admin-customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="admin-suppliers.html" class="nav-item"><i class="fas fa-truck"></i> Suppliers</a>
+            <a href="admin-settings.html" class="nav-item active"><i class="fas fa-cog"></i> Settings</a>
+            <a href="index.html" class="nav-item"><i class="fas fa-store"></i> Store</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <h1 style="margin-bottom:2rem;">Settings</h1>
+
+        <div class="settings-card">
+            <h2><i class="fas fa-user-shield"></i> Admin Accounts</h2>
+            <div class="admin-list" id="adminList"></div>
+            <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--gray-200);">
+                <h3 style="margin-bottom:1rem;">Add New Admin</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:1rem;align-items:end;">
+                    <div class="form-group" style="margin:0;">
+                        <label>Username</label>
+                        <input type="text" id="newAdminUser" placeholder="Enter username">
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>Password</label>
+                        <input type="password" id="newAdminPass" placeholder="Enter password">
+                    </div>
+                    <button class="btn-primary" onclick="addNewAdmin()"><i class="fas fa-plus"></i> Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h2><i class="fas fa-database"></i> Data Management</h2>
+            <p style="color:var(--gray-500);margin-bottom:1rem;">Manage your local storage data. Warning: These actions cannot be undone.</p>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                <button class="btn-danger" onclick="clearAllData()"><i class="fas fa-trash"></i> Clear All Data</button>
+                <button class="btn-primary" onclick="resetToDefaults()"><i class="fas fa-undo"></i> Reset to Defaults</button>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h2><i class="fas fa-info-circle"></i> System Info</h2>
+            <div id="systemInfo"></div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        if (!checkAdminAuth()) window.location.href = 'admin-login.html';
+
+        function loadAdmins() {
+            const admins = JSON.parse(localStorage.getItem('navcart_admins')) || [{username:'admin',password:'admin123'}];
+            const list = document.getElementById('adminList');
+            list.innerHTML = admins.map((a,i) => `
+                <div class="admin-item">
+                    <div>
+                        <div style="font-weight:600;">${a.username}</div>
+                        <div style="font-size:0.875rem;color:var(--gray-500);">${i===0?'Default Admin':'Custom Admin'}</div>
+                    </div>
+                    ${i>0 ? `<button onclick="removeAdmin(${i})" style="background:none;border:none;color:var(--danger);cursor:pointer;"><i class="fas fa-trash"></i></button>` : '<span style="color:var(--gray-500);font-size:0.875rem;">Protected</span>'}
+                </div>
+            `).join('');
+        }
+
+        function addNewAdmin() {
+            const user = document.getElementById('newAdminUser').value.trim();
+            const pass = document.getElementById('newAdminPass').value.trim();
+            if (!user || !pass) { showToast('Error', 'Fill all fields', 'error'); return; }
+            const admins = JSON.parse(localStorage.getItem('navcart_admins')) || [];
+            if (admins.find(a => a.username === user)) { showToast('Error', 'Username exists', 'error'); return; }
+            admins.push({username:user,password:pass});
+            localStorage.setItem('navcart_admins', JSON.stringify(admins));
+            document.getElementById('newAdminUser').value = '';
+            document.getElementById('newAdminPass').value = '';
+            loadAdmins();
+            showToast('Success', 'Admin added', 'success');
+        }
+
+        function removeAdmin(index) {
+            const admins = JSON.parse(localStorage.getItem('navcart_admins')) || [];
+            admins.splice(index, 1);
+            localStorage.setItem('navcart_admins', JSON.stringify(admins));
+            loadAdmins();
+            showToast('Success', 'Admin removed', 'success');
+        }
+
+        function clearAllData() {
+            if (!confirm('WARNING: This will delete ALL data including products, orders, and analytics. Continue?')) return;
+            Object.keys(localStorage).filter(k => k.startsWith('navcart')).forEach(k => localStorage.removeItem(k));
+            showToast('Cleared', 'All data deleted', 'success');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        function resetToDefaults() {
+            if (!confirm('Reset all data to default values?')) return;
+            Object.keys(localStorage).filter(k => k.startsWith('navcart')).forEach(k => localStorage.removeItem(k));
+            showToast('Reset', 'Defaults restored', 'success');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        function loadSystemInfo() {
+            const info = document.getElementById('systemInfo');
+            const keys = Object.keys(localStorage).filter(k => k.startsWith('navcart'));
+            let totalSize = 0;
+            keys.forEach(k => totalSize += localStorage.getItem(k).length);
+            info.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+                    <div style="padding:1rem;background:var(--gray-100);border-radius:0.75rem;">
+                        <div style="font-size:0.875rem;color:var(--gray-500);">Data Keys</div>
+                        <div style="font-size:1.5rem;font-weight:700;">${keys.length}</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--gray-100);border-radius:0.75rem;">
+                        <div style="font-size:0.875rem;color:var(--gray-500);">Storage Used</div>
+                        <div style="font-size:1.5rem;font-weight:700;">${(totalSize/1024).toFixed(2)} KB</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--gray-100);border-radius:0.75rem;">
+                        <div style="font-size:0.875rem;color:var(--gray-500);">Products</div>
+                        <div style="font-size:1.5rem;font-weight:700;">${getProducts().length}</div>
+                    </div>
+                    <div style="padding:1rem;background:var(--gray-100);border-radius:0.75rem;">
+                        <div style="font-size:0.875rem;color:var(--gray-500);">Total Orders</div>
+                        <div style="font-size:1.5rem;font-weight:700;">${getOrders().length}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdmins();
+            loadSystemInfo();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - NavCart Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--primary:#6366f1;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--dark:#0f172a;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-500:#64748b;--radius-xl:1.5rem}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--dark)}
+        .sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:var(--dark);color:white;padding:2rem 1.5rem}
+        .sidebar-logo{display:flex;align-items:center;gap:0.75rem;font-size:1.5rem;font-weight:800;margin-bottom:2rem}
+        .nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border-radius:0.75rem;color:rgba(255,255,255,0.8);text-decoration:none;margin-bottom:0.5rem;transition:all 0.3s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.1);color:white}
+        .main{margin-left:260px;padding:2rem}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+        .orders-table{background:white;border-radius:var(--radius-xl);overflow:auto;border:1px solid var(--gray-200)}
+        table{width:100%;border-collapse:collapse;min-width:800px}
+        th,td{padding:1rem;text-align:left;border-bottom:1px solid var(--gray-200)}
+        th{background:var(--gray-100);font-weight:600;color:var(--gray-500);font-size:0.875rem;text-transform:uppercase}
+        .badge{padding:0.25rem 0.75rem;border-radius:999px;font-size:0.75rem;font-weight:600}
+        .badge-success{background:rgba(16,185,129,0.1);color:var(--success)}
+        .badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
+        .badge-danger{background:rgba(239,68,68,0.1);color:var(--danger)}
+        @media(max-width:1024px){.sidebar{display:none}.main{margin-left:0}}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="fas fa-shopping-bag" style="color:var(--primary)"></i> NavCart</div>
+        <nav>
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="admin-products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="admin-orders.html" class="nav-item active"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="admin-customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="admin-suppliers.html" class="nav-item"><i class="fas fa-truck"></i> Suppliers</a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <a href="index.html" class="nav-item"><i class="fas fa-store"></i> Store</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1>Orders</h1>
+            <div style="color:var(--gray-500);">Total: <strong id="totalOrders">0</strong></div>
+        </div>
+
+        <div class="orders-table">
+            <table>
+                <thead>
+                    <tr><th>Order #</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        if (!checkAdminAuth()) window.location.href = 'admin-login.html';
+
+        function loadOrders() {
+            const orders = getOrders();
+            document.getElementById('totalOrders').textContent = orders.length;
+            const tbody = document.getElementById('ordersTableBody');
+            if (!orders.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);padding:3rem;">No orders yet. Orders will appear here when customers checkout.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = orders.slice().reverse().map(o => `
+                <tr>
+                    <td><strong>#${String(o.id).slice(-6)}</strong></td>
+                    <td>${new Date(o.date).toLocaleDateString('en-IN')}</td>
+                    <td>
+                        <div>${o.customer?.name || 'Guest'}</div>
+                        <div style="font-size:0.875rem;color:var(--gray-500);">${o.customer?.email || ''}</div>
+                    </td>
+                    <td>${o.items?.length || 0} items</td>
+                    <td><strong>₹${(o.total || 0).toLocaleString()}</strong></td>
+                    <td><span class="badge badge-success">${o.status || 'Processing'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadOrders);
+    </script>
+</body>
+</html>

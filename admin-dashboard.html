@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - NavCart Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--primary:#6366f1;--accent:#ec4899;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--dark:#0f172a;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-500:#64748b;--radius-xl:1.5rem;--radius-lg:1rem}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--dark)}
+        .sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:var(--dark);color:white;padding:2rem 1.5rem;overflow-y:auto}
+        .sidebar-logo{display:flex;align-items:center;gap:0.75rem;font-size:1.5rem;font-weight:800;margin-bottom:2rem}
+        .sidebar-logo i{color:var(--primary)}
+        .nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border-radius:0.75rem;color:rgba(255,255,255,0.8);text-decoration:none;margin-bottom:0.5rem;transition:all 0.3s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.1);color:white}
+        .nav-item i{width:20px}
+        .main{margin-left:260px;padding:2rem}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+        .topbar h1{font-size:1.75rem}
+        .logout{padding:0.5rem 1rem;background:rgba(255,255,255,0.1);border:none;color:white;border-radius:0.5rem;cursor:pointer}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:2rem}
+        .stat-card{background:white;padding:1.5rem;border-radius:var(--radius-xl);border:1px solid var(--gray-200)}
+        .stat-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem}
+        .stat-icon{width:48px;height:48px;border-radius:0.75rem;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+        .stat-value{font-size:2rem;font-weight:800;color:var(--dark)}
+        .stat-label{color:var(--gray-500);font-size:0.875rem}
+        .stat-change{font-size:0.875rem;margin-top:0.5rem}
+        .section{background:white;border-radius:var(--radius-xl);padding:1.5rem;border:1px solid var(--gray-200);margin-bottom:1.5rem}
+        .section h3{margin-bottom:1rem;font-size:1.125rem}
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:0.875rem;text-align:left;border-bottom:1px solid var(--gray-200);font-size:0.9375rem}
+        th{color:var(--gray-500);font-weight:600;font-size:0.875rem;text-transform:uppercase}
+        .badge{padding:0.25rem 0.75rem;border-radius:999px;font-size:0.75rem;font-weight:600}
+        .badge-success{background:rgba(16,185,129,0.1);color:var(--success)}
+        .badge-warning{background:rgba(245,158,11,0.1);color:var(--warning)}
+        .badge-danger{background:rgba(239,68,68,0.1);color:var(--danger)}
+        .btn-sm{padding:0.5rem 1rem;background:var(--primary);color:white;border:none;border-radius:0.5rem;font-size:0.875rem;cursor:pointer}
+        .chart-bar{height:8px;background:var(--gray-200);border-radius:999px;overflow:hidden;margin-top:0.5rem}
+        .chart-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:999px}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+        @media(max-width:1024px){.sidebar{transform:translateX(-100%);z-index:100}.main{margin-left:0}}
+        @media(max-width:768px){.two-col{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="fas fa-shopping-bag"></i> NavCart</div>
+        <nav>
+            <a href="admin-dashboard.html" class="nav-item active"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="admin-products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="admin-customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="admin-suppliers.html" class="nav-item"><i class="fas fa-truck"></i> Suppliers</a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <a href="index.html" class="nav-item"><i class="fas fa-store"></i> Store</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1>Dashboard</h1>
+            <button class="logout" onclick="adminLogout();window.location.href='admin-login.html'"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <div class="two-col">
+            <div class="section">
+                <h3><i class="fas fa-shopping-bag" style="color:var(--primary);"></i> Recent Orders</h3>
+                <div id="ordersTable"><p style="color:var(--gray-500);text-align:center;padding:2rem;">No orders yet</p></div>
+            </div>
+            <div class="section">
+                <h3><i class="fas fa-box" style="color:var(--warning);"></i> Low Stock Alert</h3>
+                <div id="stockTable"><p style="color:var(--gray-500);text-align:center;padding:2rem;">All stock levels healthy</p></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3><i class="fas fa-chart-bar" style="color:var(--success);"></i> Sales Overview</h3>
+            <div id="salesChart"></div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        if (!checkAdminAuth()) window.location.href = 'admin-login.html';
+
+        function loadDashboard() {
+            const stats = getDashboardStats();
+            const statColors = ['bg-primary','bg-success','bg-warning','bg-danger','bg-accent'];
+            const statIcons = ['fa-rupee-sign','fa-shopping-cart','fa-box','fa-users','fa-exclamation-triangle'];
+            const statItems = [
+                {label:'Total Revenue',value:'₹'+stats.totalRevenue.toLocaleString(),change:'From all orders',color:'var(--primary)',icon:'fa-rupee-sign'},
+                {label:'Total Orders',value:stats.totalOrders,change:'Lifetime orders',color:'var(--success)',icon:'fa-shopping-cart'},
+                {label:'Products',value:stats.totalProducts,change:'In catalog',color:'var(--warning)',icon:'fa-box'},
+                {label:'Customers',value:stats.totalCustomers,change:'Unique buyers',color:'var(--accent)',icon:'fa-users'},
+                {label:'Low Stock',value:stats.lowStock,change:'Items need restocking',color:'var(--danger)',icon:'fa-exclamation-triangle'}
+            ];
+
+            document.getElementById('statsGrid').innerHTML = statItems.map(s => `
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-value">${s.value}</div>
+                            <div class="stat-label">${s.label}</div>
+                        </div>
+                        <div class="stat-icon" style="background:${s.color}15;color:${s.color};"><i class="fas ${s.icon}"></i></div>
+                    </div>
+                    <div class="stat-change" style="color:var(--gray-500);"><i class="fas fa-info-circle"></i> ${s.change}</div>
+                </div>
+            `).join('');
+
+            // Recent Orders
+            if (stats.recentOrders.length) {
+                document.getElementById('ordersTable').innerHTML = `
+                    <table>
+                        <thead><tr><th>Order #</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+                        <tbody>
+                            ${stats.recentOrders.map(o => `
+                                <tr>
+                                    <td>#${String(o.id).slice(-6)}</td>
+                                    <td>${o.customer?.name || 'Guest'}</td>
+                                    <td>₹${(o.total||0).toLocaleString()}</td>
+                                    <td><span class="badge badge-success">${o.status || 'Processing'}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            // Low Stock
+            const products = getProducts();
+            const low = products.filter(p => p.stock < 10);
+            if (low.length) {
+                document.getElementById('stockTable').innerHTML = `
+                    <table>
+                        <thead><tr><th>Product</th><th>Stock</th><th>Action</th></tr></thead>
+                        <tbody>
+                            ${low.map(p => `
+                                <tr>
+                                    <td>${p.name}</td>
+                                    <td><span class="badge ${p.stock < 5 ? 'badge-danger' : 'badge-warning'}">${p.stock} left</span></td>
+                                    <td><a href="admin-products.html" class="btn-sm">Restock</a></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            // Sales Chart (last 7 days simulation)
+            const orders = getOrders();
+            const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            const today = new Date();
+            const dayData = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(today); d.setDate(d.getDate() - i);
+                const dayOrders = orders.filter(o => {
+                    const od = new Date(o.date);
+                    return od.getDate() === d.getDate() && od.getMonth() === d.getMonth();
+                });
+                const total = dayOrders.reduce((s, o) => s + (o.total || 0), 0);
+                dayData.push({day: days[d.getDay()], total, orders: dayOrders.length});
+            }
+            const maxVal = Math.max(...dayData.map(d => d.total), 1);
+            document.getElementById('salesChart').innerHTML = dayData.map(d => `
+                <div style="margin-bottom:1rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem;">
+                        <span style="font-weight:600;font-size:0.875rem;">${d.day}</span>
+                        <span style="font-size:0.875rem;color:var(--gray-500);">₹${d.total.toLocaleString()} (${d.orders} orders)</span>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width:${(d.total/maxVal*100)||5}%;"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

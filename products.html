@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - NavCart</title>
+    <meta name="description" content="Browse 1M+ products at NavCart. Best prices guaranteed.">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck"></i> Free Shipping on Orders ₹499+</span>
+                <span><i class="fas fa-headset"></i> 24/7 Support: 1800-123-4567</span>
+                <span><a href="admin-login.html" style="color:var(--gray-400);text-decoration:none;"><i class="fas fa-lock"></i> Admin</a></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="logo-text">Nav<span>Cart</span></span>
+                </a>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search">
+                    <button onclick="searchProducts()" aria-label="Search"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="action-btn"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+                    <a href="cart.html" class="action-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                        <span>Cart</span>
+                    </a>
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="nav-cat"><i class="fas fa-th-large"></i> All Categories</a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html" class="active">Products</a>
+                    <a href="about.html">About</a>
+                    <a href="cart.html">Cart</a>
+                    <a href="support.html">Support</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span>Menu</span>
+            <i class="fas fa-times" onclick="toggleMobileMenu()"></i>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="products.html" class="active"><i class="fas fa-box"></i> Products</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section style="padding: 3rem 0; background: linear-gradient(135deg, var(--dark) 0%, #1e1b4b 100%); color: white;">
+        <div class="container">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--gray-400); font-size: 0.875rem;">
+                <a href="index.html" style="color: var(--gray-400);">Home</a>
+                <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+                <span>Products</span>
+            </div>
+            <h1 style="font-size: clamp(1.875rem, 4vw, 2.5rem); font-weight: 800;">All Products</h1>
+            <p style="color: var(--gray-400); margin-top: 0.5rem;">Discover our curated collection of premium products</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" style="padding: 3rem 0;">
+        <div class="container">
+            <div class="products-grid" id="productsGrid"></div>
+            <div id="noResults" style="display:none;text-align:center;padding:4rem;color:var(--gray-500);">
+                <i class="fas fa-search" style="font-size:3rem;margin-bottom:1rem;"></i>
+                <h3>No products found</h3>
+                <p>Try a different search term</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                        <span style="color: white;">Nav<span style="color: var(--primary);">Cart</span></span>
+                    </a>
+                    <p>India's most trusted online shopping destination.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="support.html">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy</a></li>
+                        <li><a href="terms-of-service.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p> 2024 NavCart. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            const catFilter = urlParams.get('cat');
+
+            let prods = getProducts();
+
+            if (searchQuery) {
+                document.getElementById('searchInput').value = searchQuery;
+                prods = prods.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            }
+
+            if (catFilter) {
+                prods = prods.filter(p => p.category === catFilter);
+            }
+
+            if (prods.length) {
+                renderProducts('productsGrid', prods);
+            } else {
+                document.getElementById('productsGrid').style.display = 'none';
+                document.getElementById('noResults').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

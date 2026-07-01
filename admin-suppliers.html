@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers - NavCart Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--primary:#6366f1;--accent:#ec4899;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--dark:#0f172a;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-500:#64748b;--radius-xl:1.5rem}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--dark)}
+        .sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:var(--dark);color:white;padding:2rem 1.5rem}
+        .sidebar-logo{display:flex;align-items:center;gap:0.75rem;font-size:1.5rem;font-weight:800;margin-bottom:2rem}
+        .nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border-radius:0.75rem;color:rgba(255,255,255,0.8);text-decoration:none;margin-bottom:0.5rem;transition:all 0.3s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.1);color:white}
+        .main{margin-left:260px;padding:2rem}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+        .btn-add{padding:0.75rem 1.5rem;background:var(--primary);color:white;border:none;border-radius:0.75rem;font-weight:600;cursor:pointer}
+        .supplier-table{background:white;border-radius:var(--radius-xl);overflow:auto;border:1px solid var(--gray-200)}
+        table{width:100%;border-collapse:collapse;min-width:700px}
+        th,td{padding:1rem;text-align:left;border-bottom:1px solid var(--gray-200)}
+        th{background:var(--gray-100);font-weight:600;color:var(--gray-500);font-size:0.875rem;text-transform:uppercase}
+        .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:0.5rem}
+        .status-active{background:var(--success)}
+        .status-inactive{background:var(--danger)}
+        .actions{display:flex;gap:0.5rem}
+        .btn-icon{width:36px;height:36px;border:none;border-radius:0.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .btn-edit{background:rgba(99,102,241,0.1);color:var(--primary)}
+        .btn-del{background:rgba(239,68,68,0.1);color:var(--danger)}
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+        .modal.show{display:flex}
+        .modal-content{background:white;border-radius:var(--radius-xl);width:100%;max-width:500px;padding:2rem}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+        .form-group{margin-bottom:1rem}
+        .form-group label{display:block;margin-bottom:0.5rem;font-weight:500;font-size:0.875rem}
+        .form-group input{width:100%;padding:0.75rem;border:1px solid var(--gray-200);border-radius:0.5rem;outline:none}
+        .form-group input:focus{border-color:var(--primary)}
+        .btn-save{padding:0.875rem;background:var(--success);color:white;border:none;border-radius:0.5rem;font-weight:600;cursor:pointer;width:100%}
+        .close-btn{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-500)}
+        @media(max-width:1024px){.sidebar{display:none}.main{margin-left:0}}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="fas fa-shopping-bag" style="color:var(--primary)"></i> NavCart</div>
+        <nav>
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="admin-products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="admin-customers.html" class="nav-item"><i class="fas fa-users"></i> Customers</a>
+            <a href="admin-suppliers.html" class="nav-item active"><i class="fas fa-truck"></i> Suppliers</a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <a href="index.html" class="nav-item"><i class="fas fa-store"></i> Store</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1>Suppliers</h1>
+            <button class="btn-add" onclick="openModal()"><i class="fas fa-plus"></i> Add Supplier</button>
+        </div>
+
+        <div class="supplier-table">
+            <table>
+                <thead>
+                    <tr><th>Supplier</th><th>Contact</th><th>Products</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="supplierTableBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="modal" id="supplierModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Supplier</h2>
+                <button class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="supplierForm" onsubmit="saveSupplier(event)">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" id="sName" required placeholder="e.g. TechWorld Pvt Ltd">
+                </div>
+                <div class="form-group">
+                    <label>Contact Person</label>
+                    <input type="text" id="sContact" required placeholder="e.g. Rahul Sharma">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="sEmail" required placeholder="supplier@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="sPhone" required placeholder="e.g. 9876543210">
+                </div>
+                <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Supplier</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        if (!checkAdminAuth()) window.location.href = 'admin-login.html';
+
+        let allSuppliers = [];
+
+        function loadSuppliers() {
+            allSuppliers = getSuppliers();
+            const tbody = document.getElementById('supplierTableBody');
+            if (!allSuppliers.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:3rem;">No suppliers yet. Add your first supplier!</td></tr>';
+                return;
+            }
+            tbody.innerHTML = allSuppliers.map(s => `
+                <tr>
+                    <td>
+                        <div style="font-weight:600;">${s.name}</div>
+                        <div style="font-size:0.875rem;color:var(--gray-500);">ID: ${s.id}</div>
+                    </td>
+                    <td>
+                        <div>${s.contact}</div>
+                        <div style="font-size:0.875rem;color:var(--gray-500);">${s.email}</div>
+                        <div style="font-size:0.875rem;color:var(--gray-500);">${s.phone}</div>
+                    </td>
+                    <td>${s.products || 0} products</td>
+                    <td><span class="status-dot ${s.status === 'active' ? 'status-active' : 'status-inactive'}"></span>${s.status || 'Active'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-icon btn-edit" onclick="editSupplier(${s.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon btn-del" onclick="deleteSupplierConfirm(${s.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openModal() {
+            document.getElementById('modalTitle').textContent = 'Add Supplier';
+            document.getElementById('supplierForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('supplierModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('supplierModal').classList.remove('show');
+        }
+
+        function editSupplier(id) {
+            const s = allSuppliers.find(x => x.id === id);
+            if (!s) return;
+            document.getElementById('modalTitle').textContent = 'Edit Supplier';
+            document.getElementById('editId').value = s.id;
+            document.getElementById('sName').value = s.name;
+            document.getElementById('sContact').value = s.contact;
+            document.getElementById('sEmail').value = s.email;
+            document.getElementById('sPhone').value = s.phone;
+            document.getElementById('supplierModal').classList.add('show');
+        }
+
+        function saveSupplier(e) {
+            e.preventDefault();
+            const id = document.getElementById('editId').value;
+            const data = {
+                name: document.getElementById('sName').value,
+                contact: document.getElementById('sContact').value,
+                email: document.getElementById('sEmail').value,
+                phone: document.getElementById('sPhone').value,
+                status: 'active'
+            };
+            if (id) {
+                updateSupplier(parseInt(id), data);
+                showToast('Updated', 'Supplier updated', 'success');
+            } else {
+                addSupplier(data);
+                showToast('Added', 'New supplier added', 'success');
+            }
+            closeModal();
+            loadSuppliers();
+        }
+
+        function deleteSupplierConfirm(id) {
+            if (confirm('Delete this supplier?')) {
+                deleteSupplier(id);
+                showToast('Deleted', 'Supplier removed', 'warning');
+                loadSuppliers();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSuppliers);
+    </script>
+</body>
+</html>

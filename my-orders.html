@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - NavCart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .orders-container{max-width:800px;margin:2rem auto;padding:0 1rem}
+        .order-card{background:white;border-radius:1rem;padding:1.5rem;margin-bottom:1rem;border:1px solid var(--gray-200)}
+        .order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:1rem}
+        .order-id{font-weight:700}
+        .order-date{color:var(--gray-500);font-size:0.875rem}
+        .order-status{display:flex;align-items:center;gap:0.5rem}
+        .status-badge{padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.75rem;font-weight:600}
+        .status-pending{background:rgba(245,158,11,0.1);color:#b45309}
+        .status-shipped{background:rgba(99,102,241,0.1);color:var(--primary)}
+        .status-delivered{background:rgba(16,185,129,0.1);color:var(--success)}
+        .order-items{margin-bottom:1rem}
+        .order-item{display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--gray-100)}
+        .order-item:last-child{border-bottom:none}
+        .order-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--gray-200)}
+        .order-total{font-size:1.25rem;font-weight:700}
+        .return-btn{padding:0.5rem 1rem;background:var(--warning);color:white;border:none;border-radius:0.5rem;font-weight:600;cursor:pointer}
+        .return-btn:disabled{background:var(--gray-300);cursor:not-allowed}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="logo-text">Nav<span>Cart</span></span>
+                </a>
+                <div class="header-actions">
+                    <a href="my-orders.html" class="action-btn"><i class="fas fa-box"></i><span>Orders</span></a>
+                    <a href="#" onclick="logoutUser()" class="action-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="orders-container">
+        <h1 style="margin-bottom:2rem;">My Orders</h1>
+        <div id="ordersList"></div>
+        <div id="noOrders" style="display:none;text-align:center;padding:3rem;color:var(--gray-500)">
+            <i class="fas fa-shopping-bag" style="font-size:3rem;margin-bottom:1rem"></i>
+            <h2>No orders yet</h2>
+            <p>Start shopping to see your orders here</p>
+            <a href="products.html" class="btn btn-primary" style="display:inline-block;margin-top:1rem">Shop Now</a>
+        </div>
+    </div>
+
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('navcart_current_user'));
+        if (!currentUser) {
+            window.location.href = 'user-login.html';
+        }
+
+        function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('navcart_orders')) || [];
+            const userOrders = orders.filter(o => o.customer?.phone === currentUser.phone);
+            
+            if (userOrders.length === 0) {
+                document.getElementById('noOrders').style.display = 'block';
+                return;
+            }
+
+            const container = document.getElementById('ordersList');
+            container.innerHTML = userOrders.reverse().map(order => {
+                const orderDate = new Date(order.date);
+                const now = new Date();
+                const daysSince = Math.floor((now - orderDate) / (1000 * 60 * 60 * 24));
+                const canReturn = daysSince <= 7 && order.status !== 'Delivered' && order.status !== 'Returned';
+                
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <div class="order-id">Order #${String(order.id).slice(-6)}</div>
+                                <div class="order-date">${orderDate.toLocaleDateString('en-IN')}</div>
+                            </div>
+                            <div class="order-status">
+                                <span class="status-badge status-${order.status?.toLowerCase() || 'pending'}">${order.status || 'Pending'}</span>
+                            </div>
+                        </div>
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <span>${item.name} × ${item.quantity}</span>
+                                    <span>₹${(item.price * item.quantity).toLocaleString()}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">Total: ₹${(order.total || 0).toLocaleString()}</div>
+                            ${canReturn ? `<button class="return-btn" onclick="returnOrder(${order.id})"><i class="fas fa-undo"></i> Return Order</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function returnOrder(orderId) {
+            if (!confirm('Are you sure you want to return this order?')) return;
+            
+            const orders = JSON.parse(localStorage.getItem('navcart_orders')) || [];
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+            
+            if (orderIndex >= 0) {
+                orders[orderIndex].status = 'Return Requested';
+                localStorage.setItem('navcart_orders', JSON.stringify(orders));
+                alert('Return request submitted! We will contact you within 24 hours.');
+                loadOrders();
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('navcart_current_user');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadOrders);
+    </script>
+</body>
+</html>

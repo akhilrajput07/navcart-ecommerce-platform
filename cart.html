@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - NavCart</title>
+    <meta name="description" content="Your shopping cart - NavCart">
+    <meta name="theme-color" content="#6366f1">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck"></i> Free Shipping on Orders ₹499+</span>
+                <span><i class="fas fa-headset"></i> 24/7 Support: 1800-123-4567</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="logo-text">Nav<span>Cart</span></span>
+                </a>
+                <div class="header-actions">
+                    <a href="products.html" class="action-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Continue</span>
+                    </a>
+                    <a href="#" class="action-btn" aria-label="Wishlist">
+                        <i class="fas fa-heart"></i>
+                        <span>Wishlist</span>
+                    </a>
+                    <a href="cart.html" class="action-btn" aria-label="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                        <span>Cart</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="nav-cat"><i class="fas fa-th-large"></i> All Categories</a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Products</a>
+                    <a href="about.html">About</a>
+                    <a href="cart.html" class="active">Cart</a>
+                    <a href="support.html">Support</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Page -->
+    <section class="cart-page">
+        <div class="container">
+            <div class="page-header">
+                <h1>Shopping Cart</h1>
+                <p id="cartItemsCount">0 items</p>
+            </div>
+
+            <div class="cart-grid">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items rendered by JS -->
+                </div>
+
+                <div class="cart-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="summary-row discount">
+                        <span>Discount</span>
+                        <span id="discount">-₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span style="color: var(--success); font-weight: 600;">FREE</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="totalAmount">₹0</span>
+                    </div>
+                    <button class="checkout-btn" onclick="proceedToCheckout()">
+                        <i class="fas fa-lock"></i> Proceed to Checkout
+                    </button>
+                    <div class="secure-note">
+                        <i class="fas fa-shield-alt"></i> Secure SSL Encrypted Checkout
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Cart -->
+            <div class="empty-cart" id="emptyCart" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything to your cart yet.</p>
+                <a href="products.html" class="btn btn-primary">
+                    <i class="fas fa-shopping-bag"></i> Start Shopping
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                        <span style="color: white;">Nav<span style="color: var(--primary);">Cart</span></span>
+                    </a>
+                    <p>India's most trusted online shopping destination.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="support.html">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p> 2024 NavCart. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        function loadCartPage() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartContent = document.querySelector('.cart-grid');
+            
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                if (cartContent) cartContent.style.display = 'none';
+                document.getElementById('cartItemsCount').textContent = '0 items';
+                return;
+            }
+
+            emptyCart.style.display = 'none';
+            if (cartContent) cartContent.style.display = 'grid';
+
+            let html = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="cart-item-details">
+                            <div>
+                                <h4>${item.name}</h4>
+                                <p class="variant">In Stock - Free Delivery</p>
+                            </div>
+                            <div class="cart-item-actions">
+                                <div class="qty-control">
+                                    <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                                    <span>${item.quantity}</span>
+                                    <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            <span class="price">₹${itemTotal.toLocaleString()}</span>
+                            <span class="remove" onclick="removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i> Remove
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = html;
+
+            const discount = Math.round(subtotal * 0.1);
+            const total = subtotal - discount;
+
+            document.getElementById('subtotal').textContent = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('discount').textContent = `-₹${discount.toLocaleString()}`;
+            document.getElementById('totalAmount').textContent = `₹${total.toLocaleString()}`;
+            document.getElementById('cartItemsCount').textContent = `${cart.reduce((sum, item) => sum + item.quantity, 0)} items`;
+        }
+
+function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Empty Cart', 'Add some products first!', 'warning');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        }
+
+
+        document.addEventListener('DOMContentLoaded', loadCartPage);
+    </script>
+</body>
+</html>

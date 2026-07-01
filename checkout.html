@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - NavCart</title>
+    <meta name="description" content="Complete your checkout - NavCart">
+    <meta name="theme-color" content="#6366f1">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .checkout-layout{display:grid;grid-template-columns:1fr 400px;gap:2rem;align-items:start}
+        @media(max-width:1024px){.checkout-layout{grid-template-columns:1fr}}
+        .checkout-card{background:white;border-radius:1.5rem;padding:2rem;border:1px solid var(--gray-200);margin-bottom:1.5rem}
+        .checkout-card h2{font-size:1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+        @media(max-width:600px){.form-row{grid-template-columns:1fr}}
+        .form-group{margin-bottom:1rem}
+        .form-group label{display:block;margin-bottom:0.5rem;font-weight:500}
+        .form-group input,.form-group select{width:100%;padding:1rem;border:2px solid var(--gray-200);border-radius:0.75rem;font-family:inherit}
+        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary)}
+        .payment-options{display:grid;gap:0.75rem}
+        .payment-option{display:flex;align-items:center;gap:1rem;padding:1rem;border:2px solid var(--gray-200);border-radius:0.75rem;cursor:pointer;transition:all 0.3s}
+        .payment-option:hover{border-color:var(--primary)}
+        .payment-option.selected{border-color:var(--primary);background:rgba(99,102,241,0.05)}
+        .payment-option input{display:none}
+        .payment-icon{width:48px;height:48px;background:var(--gray-100);border-radius:0.5rem;display:flex;align-items:center;justify-content:center;font-size:1.25rem;color:var(--primary)}
+        .place-order-btn{width:100%;padding:1.25rem;background:linear-gradient(135deg,var(--primary),#4f46e5);color:white;border:none;border-radius:0.75rem;font-size:1.125rem;font-weight:700;cursor:pointer;transition:all 0.3s}
+        .place-order-btn:hover{transform:translateY(-2px);box-shadow:0 10px30px rgba(99,102,241,0.4)}
+        .order-summary{background:var(--gray-100);border-radius:1.5rem;padding:1.5rem;position:sticky;top:100px}
+        .summary-item{display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--gray-200)}
+        .summary-item.total{border-top:2px solid var(--dark);border-bottom:none;padding-top:1rem;margin-top:0.5rem}
+        .summary-item.total span{font-size:1.25rem;font-weight:800}
+        .cod-note{background:rgba(245,158,11,0.1);color:#b45309;padding:1rem;border-radius:0.75rem;font-size:0.875rem;margin-top:1rem}
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck"></i> Free Shipping on Orders ₹499+</span>
+                <span><i class="fas fa-headset"></i> 24/7 Support: 1800-123-4567</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="logo-text">Nav<span>Cart</span></span>
+                </a>
+                <div class="secure-checkout-badge" style="display:flex;align-items:center;gap:0.5rem;color:var(--success);">
+                    <i class="fas fa-lock"></i>
+                    <span style="font-weight:600;">Secure Checkout</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Checkout Main -->
+    <section style="padding: 2rem 0;">
+        <div class="container">
+            <div class="checkout-layout">
+                <!-- Left: Forms -->
+                <div>
+                    <!-- Delivery Address -->
+                    <div class="checkout-card">
+                        <h2><i class="fas fa-map-marker-alt"></i> Delivery Address</h2>
+                        <form id="addressForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>First Name *</label>
+                                    <input type="text" id="firstName" required placeholder="Enter first name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name *</label>
+                                    <input type="text" id="lastName" required placeholder="Enter last name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="phone" required placeholder="10-digit mobile number">
+                            </div>
+                            <div class="form-group">
+                                <label>Address *</label>
+                                <input type="text" id="address" required placeholder="House No., Street, Area">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>City *</label>
+                                    <input type="text" id="city" required placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <label>State *</label>
+                                    <select id="state" required>
+                                        <option value="">Select State</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>PIN Code *</label>
+                                <input type="text" id="pincode" required placeholder="6-digit PIN code" maxlength="6">
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="checkout-card">
+                        <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                        <div class="payment-options">
+                            <label class="payment-option selected" onclick="selectPayment(this)">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <div class="payment-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                <div>
+                                    <div style="font-weight:600;">Cash on Delivery</div>
+                                    <div style="font-size:0.875rem;color:var(--gray-500);">Pay when you receive</div>
+                                </div>
+                            </label>
+                            <label class="payment-option" onclick="selectPayment(this)">
+                                <input type="radio" name="payment" value="card">
+                                <div class="payment-icon"><i class="fas fa-credit-card"></i></div>
+                                <div>
+                                    <div style="font-weight:600;">Credit / Debit Card</div>
+                                    <div style="font-size:0.875rem;color:var(--gray-500);">Visa, Mastercard, RuPay</div>
+                                </div>
+                            </label>
+                            <label class="payment-option" onclick="selectPayment(this)">
+                                <input type="radio" name="payment" value="upi">
+                                <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                                <div>
+                                    <div style="font-weight:600;">UPI / Google Pay / PhonePe</div>
+                                    <div style="font-size:0.875rem;color:var(--gray-500);">Instant payment</div>
+                                </div>
+                            </label>
+                            <label class="payment-option" onclick="selectPayment(this)">
+                                <input type="radio" name="payment" value="wallet">
+                                <div class="payment-icon"><i class="fas fa-wallet"></i></div>
+                                <div>
+                                    <div style="font-weight:600;">Wallets</div>
+                                    <div style="font-size:0.875rem;color:var(--gray-500);">Paytm, Amazon Pay</div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="cod-note">
+                            <i class="fas fa-info-circle"></i> Cash on Delivery - Pay ₹50 extra as COD charge
+                        </div>
+                    </div>
+
+                    <button class="place-order-btn" onclick="placeOrderNow()">
+                        <i class="fas fa-check-circle"></i> Place Order
+                    </button>
+                </div>
+
+                <!-- Right: Order Summary -->
+                <div class="order-summary">
+                    <h3 style="margin-bottom:1.5rem;">Order Summary</h3>
+                    <div id="orderItems"></div>
+                    <div class="summary-item">
+                        <span>Subtotal</span>
+                        <span id="summarySubtotal">₹0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Discount</span>
+                        <span id="summaryDiscount">-₹0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>COD Charge</span>
+                        <span id="codCharge">₹50</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Shipping</span>
+                        <span style="color:var(--success);">FREE</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total</span>
+                        <span id="summaryTotal">₹0</span>
+                    </div>
+                    <div style="margin-top:1rem;padding:1rem;background:white;border-radius:0.75rem;font-size:0.875rem;color:var(--gray-500);">
+                        <i class="fas fa-shield-alt" style="color:var(--success);"></i> 100% Buyer Protection
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2024 NavCart. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        function selectPayment(el) {
+            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input').checked = true;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const cart = JSON.parse(localStorage.getItem('navcart')) || [];
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = Math.round(subtotal * 0.1);
+            const codCharge = document.querySelector('input[name="payment"]:checked').value === 'cod' ? 50 : 0;
+            const total = subtotal - discount + codCharge;
+
+            document.getElementById('summarySubtotal').textContent = '₹' + subtotal.toLocaleString();
+            document.getElementById('summaryDiscount').textContent = '-₹' + discount.toLocaleString();
+            document.getElementById('codCharge').textContent = '₹' + codCharge;
+            document.getElementById('codCharge').style.display = codCharge > 0 ? 'block' : 'none';
+            document.getElementById('summaryTotal').textContent = '₹' + total.toLocaleString();
+        }
+
+        function loadOrderItems() {
+            const cart = JSON.parse(localStorage.getItem('navcart')) || [];
+            const container = document.getElementById('orderItems');
+            
+            let html = '';
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                html += `
+                    <div class="summary-item">
+                        <span>${item.name} × ${item.quantity}</span>
+                        <span>₹${itemTotal.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            updateTotal();
+        }
+
+        function placeOrderNow() {
+            const form = document.getElementById('addressForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const pincode = document.getElementById('pincode').value;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            const cart = JSON.parse(localStorage.getItem('navcart')) || [];
+            if (cart.length === 0) {
+                showToast('Empty Cart', 'Add some products first!', 'warning');
+                return;
+            }
+
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = Math.round(subtotal * 0.1);
+            const codCharge = paymentMethod === 'cod' ? 50 : 0;
+            const total = subtotal - discount + codCharge;
+
+            const customer = {
+                name: firstName + ' ' + lastName,
+                phone: phone,
+                email: phone + '@navcart.com',
+                address: address + ', ' + city + ', ' + state + ' - ' + pincode
+            };
+
+            // Create order
+            const order = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                customer: customer,
+                items: cart.map(item => ({...item})),
+                subtotal: subtotal,
+                discount: discount,
+                codCharge: codCharge,
+                total: total,
+                payment: paymentMethod,
+                status: 'Pending'
+            };
+
+            // Save order
+            const orders = JSON.parse(localStorage.getItem('navcart_orders')) || [];
+            orders.push(order);
+            localStorage.setItem('navcart_orders', JSON.stringify(orders));
+
+            // Update analytics
+            const analytics = JSON.parse(localStorage.getItem('navcart_analytics')) || {totalSales: 0, totalRevenue: 0};
+            analytics.totalSales += cart.reduce((sum, item) => sum + item.quantity, 0);
+            analytics.totalRevenue += total;
+            analytics.totalOrders = (analytics.totalOrders || 0) + 1;
+            localStorage.setItem('navcart_analytics', JSON.stringify(analytics));
+
+            // Decrease stock
+            const products = getProducts();
+            cart.forEach(cartItem => {
+                const product = products.find(p => p.id === cartItem.id);
+                if (product) {
+                    product.stock = Math.max(0, (product.stock || 0) - cartItem.quantity);
+                }
+            });
+            localStorage.setItem('navcart_products', JSON.stringify(products));
+
+            // Clear cart
+            localStorage.setItem('navcart', '[]');
+
+            showToast('Order Placed!', 'Your order has been placed successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html?order=success';
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrderItems();
+        });
+    </script>
+</body>
+</html>

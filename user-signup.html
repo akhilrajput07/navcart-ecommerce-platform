@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NavCart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .auth-container{max-width:450px;margin:4rem auto;padding:2rem}
+        .auth-card{background:white;border-radius:1.5rem;padding:2.5rem;border:1px solid var(--gray-200);box-shadow:0 10px40px rgba(0,0,0,0.1)}
+        .auth-header{text-align:center;margin-bottom:2rem}
+        .auth-header h1{font-size:1.75rem;margin-bottom:0.5rem}
+        .form-group{margin-bottom:1.25rem}
+        .form-group label{display:block;margin-bottom:0.5rem;font-weight:500}
+        .form-group input{width:100%;padding:1rem;border:2px solid var(--gray-200);border-radius:0.75rem;font-family:inherit}
+        .form-group input:focus{outline:none;border-color:var(--primary)}
+        .otp-inputs{display:flex;gap:0.75rem;justify-content:center;margin:1.5rem 0}
+        .otp-inputs input{width:50px;height:60px;text-align:center;font-size:1.5rem;font-weight:700;letter-spacing:0}
+        .btn-primary{width:100%;padding:1rem;background:var(--primary);color:white;border:none;border-radius:0.75rem;font-weight:600;cursor:pointer}
+        .btn-primary:hover{background:#4f46e5}
+        .auth-footer{text-align:center;margin-top:1.5rem;color:var(--gray-500)}
+        .auth-footer a{color:var(--primary);font-weight:600}
+        .timer{text-align:center;color:var(--gray-500);margin:1rem 0}
+        .resend{color:var(--primary);cursor:pointer;font-weight:600}
+        .resend:disabled{color:var(--gray-400);cursor:not-allowed}
+        .step{display:none}
+        .step.active{display:block}
+    </style>
+</head>
+<body style="background:var(--gray-100);min-height:100vh">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="logo-text">Nav<span>Cart</span></span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-user-plus fa-2x" style="color:var(--primary);margin-bottom:1rem"></i>
+                <h1>Create Account</h1>
+                <p style="color:var(--gray-500)">Join NavCart for exclusive deals</p>
+            </div>
+
+            <!-- Step 1: Phone Number -->
+            <div class="step active" id="step1">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter 10-digit number" maxlength="10">
+                </div>
+                <button class="btn-primary" onclick="sendOTP()">
+                    <i class="fas fa-paper-plane"></i> Send OTP
+                </button>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div class="step" id="step2">
+                <p style="text-align:center;margin-bottom:1rem;color:var(--gray-500)">
+                    Enter OTP sent to <strong>+91 <span id="showPhone"></span></strong>
+                </p>
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" class="otp" onkeyup="moveToNext(this,1)" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <input type="text" maxlength="1" class="otp" onkeyup="moveToNext(this,2)" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <input type="text" maxlength="1" class="otp" onkeyup="moveToNext(this,3)" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <input type="text" maxlength="1" class="otp" onkeyup="moveToNext(this,4)" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <input type="text" maxlength="1" class="otp" onkeyup="moveToNext(this,5)" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <input type="text" maxlength="1" class="otp" onkeyup="moveToNext(this,6)" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                </div>
+                <button class="btn-primary" onclick="verifyOTP()">
+                    <i class="fas fa-check"></i> Verify OTP
+                </button>
+                <div class="timer">
+                    Resend OTP in <span id="countdown">60</span>s 
+                    <span class="resend" id="resendBtn" onclick="resendOTP()">[Resend]</span>
+                </div>
+            </div>
+
+            <!-- Step 3: Create Password -->
+            <div class="step" id="step3">
+                <p style="text-align:center;margin-bottom:1rem;color:var(--success)">
+                    <i class="fas fa-check-circle"></i> Phone Verified! Create your password
+                </p>
+                <div class="form-group">
+                    <label>Create Password</label>
+                    <input type="password" id="password" placeholder="Min 6 characters">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password">
+                </div>
+                <button class="btn-primary" onclick="createAccount()">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </div>
+        </div>
+
+        <div class="auth-footer">
+            Already have an account? <a href="user-login.html">Login</a>
+        </div>
+    </div>
+
+    <script>
+        let phone = '';
+        let generatedOTP = '';
+        let timerInterval = null;
+
+        function sendOTP() {
+            phone = document.getElementById('phone').value;
+            if (phone.length !== 10) {
+                alert('Enter valid 10-digit phone number');
+                return;
+            }
+
+            // Check if already registered
+            const users = JSON.parse(localStorage.getItem('navcart_users')) || [];
+            if (users.find(u => u.phone === phone)) {
+                alert('This number is already registered!');
+                return;
+            }
+
+            // Generate 6-digit OTP
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('OTP:', generatedOTP); // For demo - in real app, send via SMS API
+
+            // Show OTP step
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+            document.getElementById('showPhone').textContent = phone;
+
+            // Start timer
+            startTimer();
+            alert('Demo OTP: ' + generatedOTP); // Remove in production
+        }
+
+        function moveToNext(input, num) {
+            if (input.value.length === 1 && num < 6) {
+                document.querySelectorAll('.otp')[num].focus();
+            }
+        }
+
+        function verifyOTP() {
+            let otp = '';
+            document.querySelectorAll('.otp').forEach(input => otp += input.value);
+            
+            if (otp === generatedOTP) {
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step3').classList.add('active');
+                if (timerInterval) clearInterval(timerInterval);
+            } else {
+                alert('Invalid OTP!');
+            }
+        }
+
+        function startTimer() {
+            let seconds = 60;
+            document.getElementById('countdown').textContent = seconds;
+            document.getElementById('resendBtn').disabled = true;
+            
+            timerInterval = setInterval(() => {
+                seconds--;
+                document.getElementById('countdown').textContent = seconds;
+                if (seconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('resendBtn').disabled = false;
+                }
+            }, 1000);
+        }
+
+        function resendOTP() {
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('New OTP:', generatedOTP);
+            alert('New OTP: ' + generatedOTP);
+            document.querySelectorAll('.otp').forEach(input => input.value = '');
+            document.querySelectorAll('.otp')[0].focus();
+            startTimer();
+        }
+
+        function createAccount() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Save user
+            const users = JSON.parse(localStorage.getItem('navcart_users')) || [];
+            users.push({
+                phone: phone,
+                password: password,
+                created: new Date().toISOString()
+            });
+            localStorage.setItem('navcart_users', JSON.stringify(users));
+
+            alert('Account created successfully! Please login.');
+            window.location.href = 'user-login.html';
+        }
+    </script>
+</body>
+</html>

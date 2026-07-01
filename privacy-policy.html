@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - NavCart</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Privacy Policy Specific Styles - Mixed Layout */
+        .privacy-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Horizontal Security Header */
+        .security-header {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .security-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.03) 10px,
+                rgba(255,255,255,0.03) 20px
+            );
+            animation: securityMove 20s linear infinite;
+        }
+
+        @keyframes securityMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(72, 187, 120, 0.2);
+            border: 2px solid #48bb78;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #48bb78;
+        }
+
+        .security-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .security-header p {
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Mixed Layout Grid */
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Vertical Navigation Sidebar */
+        .privacy-nav {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+            border-left: 4px solid #f6ad55;
+        }
+
+        .privacy-nav h3 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f7fafc;
+        }
+
+        .privacy-nav ul {
+            list-style: none;
+        }
+
+        .privacy-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .privacy-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            color: #4a5568;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .privacy-nav a:hover,
+        .privacy-nav a.active {
+            background: linear-gradient(135deg, #f6ad55, #ed8936);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .privacy-nav i {
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Horizontal Content Cards */
+        .privacy-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .privacy-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border-top: 4px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .privacy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #f6ad55, #ed8936, #f6ad55);
+            background-size: 200% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .privacy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .privacy-card h2 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .privacy-card .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f6ad55, #ed8936);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .privacy-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .privacy-card li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid #f7fafc;
+        }
+
+        .privacy-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        /* Horizontal Feature Strip */
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .security-feature {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .security-feature:hover {
+            transform: translateY(-10px);
+            border-color: #f6ad55;
+            box-shadow: 0 20px 40px rgba(246, 173, 85, 0.3);
+        }
+
+        .security-feature i {
+            font-size: 2.5rem;
+            color: #f6ad55;
+            margin-bottom: 1rem;
+        }
+
+        .security-feature h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .security-feature p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section - Horizontal */
+        .privacy-contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .privacy-contact h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .privacy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .privacy-nav {
+                position: relative;
+                top: 0;
+                order: 2;
+            }
+
+            .security-header {
+                padding: 3rem 1.5rem;
+            }
+
+            .privacy-card {
+                padding: 1.5rem;
+            }
+
+            .contact-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .security-header::before,
+            .privacy-card::before {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck"></i> Free Shipping on Orders ₹499+</span>
+                <span><i class="fas fa-headset"></i> 24/7 Support: 1800-123-4567</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-store"></i>
+                    <span>Nav<span>Cart</span></span>
+                </a>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-primary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Security Header - Horizontal -->
+    <div class="privacy-container">
+        <div class="security-header">
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i> Secure & Trusted
+            </div>
+            <h1>Privacy Policy</h1>
+            <p>Your data security is our top priority. Learn how we protect your information.</p>
+        </div>
+
+        <!-- Horizontal Security Features -->
+        <div class="security-features">
+            <div class="security-feature">
+                <i class="fas fa-lock"></i>
+                <h3>SSL Encrypted</h3>
+                <p>256-bit encryption for all data</p>
+            </div>
+            <div class="security-feature">
+                <i class="fas fa-user-shield"></i>
+                <h3>Data Protection</h3>
+                <p>GDPR compliant practices</p>
+            </div>
+            <div class="security-feature">
+                <i class="fas fa-eye-slash"></i>
+                <h3>No Data Selling</h3>
+                <p>We never sell your info</p>
+            </div>
+            <div class="security-feature">
+                <i class="fas fa-certificate"></i>
+                <h3>Verified Secure</h3>
+                <p>Regular security audits</p>
+            </div>
+        </div>
+
+        <!-- Mixed Layout: Vertical Nav + Horizontal Content -->
+        <div class="privacy-grid">
+            <!-- Vertical Navigation -->
+            <aside class="privacy-nav">
+                <h3><i class="fas fa-list"></i> Contents</h3>
+                <ul>
+                    <li><a href="#collect" class="active"><i class="fas fa-database"></i> Data Collection</a></li>
+                    <li><a href="#usage"><i class="fas fa-cogs"></i> Data Usage</a></li>
+                    <li><a href="#security"><i class="fas fa-shield-alt"></i> Security</a></li>
+                    <li><a href="#rights"><i class="fas fa-user-check"></i> Your Rights</a></li>
+                    <li><a href="#cookies"><i class="fas fa-cookie"></i> Cookies</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </aside>
+
+            <!-- Horizontal Content Cards -->
+            <div class="privacy-content">
+                <div class="privacy-card" id="collect">
+                    <h2>
+                        <div class="card-icon"><i class="fas fa-database"></i></div>
+                        Information We Collect
+                    </h2>
+                    <p>We collect information to provide better services to our users. This includes:</p>
+                    <ul>
+                        <li>Personal information (name, email, phone number)</li>
+                        <li>Shipping and billing addresses</li>
+                        <li>Payment information (processed securely via PCI-DSS compliant gateways)</li>
+                        <li>Device and browser information</li>
+                        <li>Browsing behavior and purchase history</li>
+                        <li>Location data (for delivery purposes)</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-card" id="usage">
+                    <h2>
+                        <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                        How We Use Your Information
+                    </h2>
+                    <p>Your information helps us provide and improve our services:</p>
+                    <ul>
+                        <li>Process and fulfill your orders</li>
+                        <li>Provide customer support and respond to inquiries</li>
+                        <li>Send order updates and shipping notifications</li>
+                        <li>Improve website functionality and user experience</li>
+                        <li>Detect and prevent fraud or unauthorized access</li>
+                        <li>Send promotional offers (with your consent)</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-card" id="security">
+                    <h2>
+                        <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                        Data Security Measures
+                    </h2>
+                    <p>We implement comprehensive security measures:</p>
+                    <ul>
+                        <li>256-bit SSL/TLS encryption for all data transfers</li>
+                        <li>Regular security audits and vulnerability testing</li>
+                        <li>Secure payment processing via RazorPay & PayTM</li>
+                        <li>Strict access controls and authentication</li>
+                        <li>Daily automated backups with encryption</li>
+                        <li>Employee security training and NDAs</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-card" id="rights">
+                    <h2>
+                        <div class="card-icon"><i class="fas fa-user-check"></i></div>
+                        Your Privacy Rights
+                    </h2>
+                    <p>You have complete control over your data:</p>
+                    <ul>
+                        <li>Right to access your personal data</li>
+                        <li>Right to correct inaccurate information</li>
+                        <li>Right to request data deletion</li>
+                        <li>Right to opt-out of marketing communications</li>
+                        <li>Right to data portability</li>
+                        <li>Right to lodge a complaint with authorities</li>
+                    </ul>
+                </div>
+
+                <div class="privacy-card" id="cookies">
+                    <h2>
+                        <div class="card-icon"><i class="fas fa-cookie"></i></div>
+                        Cookies & Tracking
+                    </h2>
+                    <p>We use cookies to enhance your experience:</p>
+                    <ul>
+                        <li>Essential cookies for site functionality</li>
+                        <li>Analytics cookies to understand usage</li>
+                        <li>Preference cookies to remember settings</li>
+                        <li>Marketing cookies (optional, with consent)</li>
+                        <li>You can manage cookies via browser settings</li>
+                        <li>Third-party cookies are strictly controlled</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section - Horizontal -->
+        <div class="privacy-contact" id="contact">
+            <h2>Questions About Your Privacy?</h2>
+            <p>Our Data Protection Officer is here to help you.</p>
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <span>privacy@navcart.com</span>
+                </div>
+                <div class="contact-method">
+                    <i class="fas fa-phone"></i>
+                    <span>1800-123-4567</span>
+                </div>
+                <div class="contact-method">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>NavCart HQ, Mumbai, India</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-store"></i>
+                        <span>Nav<span>Cart</span></span>
+                    </div>
+                    <p>India's trusted online shopping destination.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="terms-of-service.html">Terms of Service</a></li>
+                            <li><a href="#">Return Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 NavCart. All rights reserved. Made with ❤️ in India</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

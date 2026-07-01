@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavCart - India's Most Trusted Online Shopping</title>
+    <meta name="description" content="Shop 1M+ products at unbeatable prices. Fast delivery, secure payments, 24/7 support.">
+    <meta name="theme-color" content="#6366f1">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck"></i> Free Shipping on Orders ₹499+</span>
+                <span><i class="fas fa-headset"></i> 24/7 Support: 1800-123-4567</span>
+                <span><a href="admin-login.html" style="color:var(--gray-400);text-decoration:none;"><i class="fas fa-lock"></i> Admin</a></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="logo-text">Nav<span>Cart</span></span>
+                </a>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for products, brands and more..." aria-label="Search">
+                    <button onclick="searchProducts()" aria-label="Search"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="action-btn"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+                    <a href="cart.html" class="action-btn"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cartCount">0</span><span>Cart</span></a>
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <div class="nav-content">
+                <a href="products.html" class="nav-cat"><i class="fas fa-th-large"></i> All Categories</a>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="products.html">Products</a>
+                    <a href="about.html">About</a>
+                    <a href="cart.html">Cart</a>
+                    <a href="support.html">Support</a>
+                </div>
+                <div class="nav-right"><span class="hot-deal"><i class="fas fa-fire"></i> Hot Deals</span></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span>Menu</span>
+            <i class="fas fa-times" onclick="toggleMobileMenu()"></i>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="products.html"><i class="fas fa-box"></i> Products</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <div class="container">
+                    <div class="hero-grid">
+                        <div class="hero-content">
+                            <div class="hero-badge"><i class="fas fa-rocket"></i> NEW COLLECTION 2024</div>
+                            <h1 class="hero-title">Upgrade Your <span class="highlight">Lifestyle</span> Today</h1>
+                            <p class="hero-desc">Discover premium products with up to 70% OFF. Free delivery on your first order with code <strong>NAVCART50</strong>.</p>
+                            <div class="hero-cta">
+                                <a href="products.html" class="btn btn-primary btn-lg"><i class="fas fa-shopping-bag"></i> Shop Now</a>
+                                <a href="#categories" class="btn btn-outline btn-lg">Explore Categories</a>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=600&fit=crop" alt="Shopping" class="hero-image">
+                            <div class="hero-floating-card"><i class="fas fa-check-circle" style="color:var(--success);"></i> 1M+ Products</div>
+                            <div class="hero-floating-card"><i class="fas fa-shipping-fast" style="color:var(--secondary);"></i> Free Delivery</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="container">
+                    <div class="hero-grid">
+                        <div class="hero-content">
+                            <div class="hero-badge"><i class="fas fa-bolt"></i> FLASH SALE</div>
+                            <h1 class="hero-title">Premium <span class="highlight">Electronics</span> Deals</h1>
+                            <p class="hero-desc">Get the latest gadgets at unbeatable prices. Limited time offer - Up to 60% off on top brands.</p>
+                            <div class="hero-cta">
+                                <a href="products.html" class="btn btn-primary btn-lg"><i class="fas fa-bolt"></i> Grab Deals</a>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&h=600&fit=crop" alt="Electronics" class="hero-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <button class="slider-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+            <div class="slider-dots">
+                <button class="slider-dot active" onclick="goToSlide(0)"></button>
+                <button class="slider-dot" onclick="goToSlide(1)"></button>
+            </div>
+            <button class="slider-btn" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="trust-signals">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-item"><div class="trust-icon"><i class="fas fa-shield-alt"></i></div><div><h3>Secure Payments</h3><p>256-bit SSL encryption</p></div></div>
+                <div class="trust-item"><div class="trust-icon"><i class="fas fa-shipping-fast"></i></div><div><h3>Fast Delivery</h3><p>2-4 days across India</p></div></div>
+                <div class="trust-item"><div class="trust-icon"><i class="fas fa-undo"></i></div><div><h3>Easy Returns</h3><p>30 days return policy</p></div></div>
+                <div class="trust-item"><div class="trust-icon"><i class="fas fa-headset"></i></div><div><h3>24/7 Support</h3><p>Live chat & call support</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Shop by Category</h2>
+                <p>Explore our wide range of products across popular categories</p>
+            </div>
+            <div class="category-grid">
+                <a href="products.html?cat=electronics" class="category-card cat-electronics"><i class="fas fa-mobile-alt"></i><span>Electronics</span></a>
+                <a href="products.html?cat=fashion" class="category-card cat-fashion"><i class="fas fa-tshirt"></i><span>Fashion</span></a>
+                <a href="products.html?cat=home" class="category-card cat-home"><i class="fas fa-home"></i><span>Home</span></a>
+                <a href="products.html?cat=beauty" class="category-card cat-beauty"><i class="fas fa-spa"></i><span>Beauty</span></a>
+                <a href="products.html?cat=sports" class="category-card cat-sports"><i class="fas fa-running"></i><span>Sports</span></a>
+                <a href="products.html?cat=books" class="category-card cat-books"><i class="fas fa-book"></i><span>Books</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended for You -->
+    <section class="products-section" style="background: linear-gradient(180deg, var(--gray-100) 0%, white 100%);">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-magic" style="color:var(--accent);"></i> Recommended for You</h2>
+                <p>Based on your browsing and cart activity</p>
+            </div>
+            <div class="products-grid" id="recommendedProducts"></div>
+        </div>
+    </section>
+
+    <!-- Trending Now -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line" style="color:var(--primary);"></i> Trending Now</h2>
+                <p>Most viewed products by our customers</p>
+            </div>
+            <div class="products-grid" id="trendingProducts"></div>
+        </div>
+    </section>
+
+    <!-- Recently Viewed -->
+    <section class="products-section" style="background: var(--gray-100); display: none;" id="recentSection">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-clock" style="color:var(--gray-500);"></i> Inspired by Your Browsing History</h2>
+                <p>You recently viewed these items</p>
+            </div>
+            <div class="products-grid" id="recentlyViewed"></div>
+        </div>
+    </section>
+
+    <!-- All Products -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trending Products</h2>
+                <p>Handpicked best sellers</p>
+            </div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Flash Deals -->
+    <section class="flash-deals">
+        <div class="container">
+            <div class="flash-header">
+                <div class="section-header" style="text-align:left;margin-bottom:0;">
+                    <h2><i class="fas fa-bolt" style="color:var(--secondary);"></i> Flash Deals</h2>
+                </div>
+                <div class="countdown"><i class="fas fa-clock"></i><span id="countdown">02:45:00</span></div>
+            </div>
+            <div class="products-slider" id="flashProducts"></div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Subscribe & Save</h2>
+                <p>Get exclusive deals and insider-only discounts.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault();showToast('Subscribed!','Thank you for subscribing.','success');">
+                    <input type="email" placeholder="Enter your email" required aria-label="Email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"><i class="fas fa-shopping-bag"></i></div>
+                        <span style="color:white;">Nav<span style="color:var(--primary);">Cart</span></span>
+                    </a>
+                    <p>India's most trusted online shopping destination.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="FB"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="IG"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="TW"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="YT"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="cart.html">Cart</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="support.html">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy</a></li>
+                        <li><a href="terms-of-service.html">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p> 2024 NavCart. All rights reserved.</p>
+                <div class="footer-payments">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fas fa-university"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Show recently viewed section only if there is history
+        document.addEventListener('DOMContentLoaded', () => {
+            const recent = getRecentlyViewed();
+            if (recent.length > 0) {
+                document.getElementById('recentSection').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

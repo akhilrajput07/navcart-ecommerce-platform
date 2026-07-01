@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireless Headphones Pro - NavCart</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header (same) -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <span><i class="fas fa-truck"></i> Free Shipping on Orders ₹499+</span>
+                <span><i class="fas fa-headset"></i> 24/7 Support: 1800-123-4567</span>
+                <span class="ml-auto"><i class="fas fa-badge-check"></i> 30-Day Returns</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo" title="NavCart Home">
+                    <i class="fas fa-store" aria-hidden="true"></i>
+                    <span>Nav<span>Cart</span></span>
+                    <small>Shop Smart</small>
+                </a>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products" title="Search products">
+                    <button onclick="searchProducts()" aria-label="Search products" title="Search"><i class="fas fa-search" aria-hidden="true"></i></button>
+                </div>
+                <div class="header-actions">
+                    <a href="#" class="action-link" aria-label="Wishlist" title="Wishlist"><i class="fas fa-heart" aria-hidden="true"></i></a>
+                    <a href="cart.html" class="cart-link" aria-label="Shopping Cart" title="View Cart">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Open navigation menu" title="Menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> 
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            <a href="products.html">Electronics</a> 
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            <span>Wireless Headphones Pro</span>
+        </div>
+    </nav>
+
+    <!-- Product Detail Main -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-detail-grid">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="gallery-thumbs">
+                        <div class="thumb active" data-img="1"><i class="fas fa-headphones" style="font-size: 2rem; color: #cbd5e0;"></i></div>
+                        <div class="thumb" data-img="2"><i class="fas fa-volume-up" style="font-size: 2rem; color: #cbd5e0;"></i></div>
+                        <div class="thumb" data-img="3"><i class="fas fa-microphone" style="font-size: 2rem; color: #cbd5e0;"></i></div>
+                        <div class="thumb" data-img="4"><i class="fas fa-battery-full" style="font-size: 2rem; color: #cbd5e0;"></i></div>
+                    </div>
+                    <div class="main-image">
+                        <div class="image-placeholder active" data-img="1">
+                            <i class="fas fa-headphones fa-5x" style="color: #f7fafc;"></i>
+                        </div>
+                        <div class="image-placeholder" data-img="2">
+                            <i class="fas fa-volume-up fa-5x" style="color: #f7fafc;"></i>
+                        </div>
+                        <div class="image-placeholder" data-img="3">
+                            <i class="fas fa-microphone fa-5x" style="color: #f7fafc;"></i>
+                        </div>
+                        <div class="image-placeholder" data-img="4">
+                            <i class="fas fa-battery-full fa-5x" style="color: #f7fafc;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <h1 class="product-title">Wireless Headphones Pro</h1>
+                        <div class="product-meta">
+                            <span class="seller-badge">🏆 Best Seller</span>
+                            <span class="stock-status"><i class="fas fa-check-circle"></i> In Stock</span>
+                        </div>
+                    </div>
+
+                    <div class="product-rating-section">
+                        <div class="rating-display">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-score">4.8</span>
+                            <span class="review-count">(2,847 reviews)</span>
+                        </div>
+                        <div class="rating-progress">
+                            <div class="progress-bar"><div class="progress-fill" style="width: 92%"></div></div> 5★
+                            <div class="progress-bar"><div class="progress-fill" style="width: 76%"></div></div> 4★
+                            <div class="progress-bar"><div class="progress-fill" style="width: 24%"></div></div> 3★
+                        </div>
+                    </div>
+
+                    <div class="product-price-section">
+                        <div class="price-main">
+                            <span class="current-price">₹1,499</span>
+                            <span class="original-price">₹2,499</span>
+                            <div class="discount-badge">-40%</div>
+                        </div>
+                        <div class="price-breakdown">
+                            <span class="emi-info">EMI starts at ₹125/mo</span>
+                            <span class="tax-info">Inclusive all taxes</span>
+                        </div>
+                    </div>
+
+                    <!-- Quantity & Add to Cart -->
+                    <div class="quantity-section">
+                        <label for="quantity">Quantity:</label>
+                        <div class="quantity-controls">
+                            <button onclick="updateQuantity(-1)" class="qty-btn" aria-label="Decrease quantity">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10" aria-label="Product quantity">
+                            <button onclick="updateQuantity(1)" class="qty-btn" aria-label="Increase quantity">+</button>
+                        </div>
+                        <button class="add-cart-btn primary" onclick="addToCartDetail()">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                        <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+                    </div>
+
+                    <!-- Trust & Delivery -->
+                    <div class="product-delivery">
+                        <div class="delivery-option">
+                            <i class="fas fa-truck-fast"></i>
+                            <span>Delivery by Tomorrow | Free Shipping</span>
+                        </div>
+                        <div class="payment-option">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Cash on Delivery Available</span>
+                        </div>
+                    </div>
+
+                    <!-- Highlights -->
+                    <div class="product-highlights">
+                        <h4>Why Choose This?</h4>
+                        <ul>
+                            <li>✅ 40hr Battery Life</li>
+                            <li>✅ Active Noise Cancellation</li>
+                            <li>✅ IPX4 Water Resistant</li>
+                            <li>✅ Bluetooth 5.2</li>
+                            <li>✅ 1 Year Warranty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Description Tabs -->
+    <section class="product-tabs">
+        <div class="container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="description">Description</button>
+                <button class="tab-btn" data-tab="specs">Specifications</button>
+                <button class="tab-btn" data-tab="reviews">Reviews (2,847)</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="description">
+                    <div class="description-content">
+                        <h3>Premium Wireless Experience</h3>
+                        <p>Experience true wireless freedom with our Pro Headphones featuring industry-leading active noise cancellation and 40 hours of battery life. Perfect for music lovers, gamers, and professionals on the go.</p>
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Active Noise Cancellation (ANC) with 3 modes</li>
+                            <li>40h playback, 5min charge = 3h usage</li>
+                            <li>Bluetooth 5.2 with aptX HD codec</li>
+                            <li>Touch controls & voice assistant support</li>
+                            <li>IPX4 sweat & water resistant</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane" id="specs">
+                    <div class="specs-table">
+                        <div class="spec-row">
+                            <span>Model</span>
+                            <span>WH-PRO2024</span>
+                        </div>
+                        <div class="spec-row">
+                            <span>Bluetooth</span>
+                            <span>5.2</span>
+                        </div>
+                        <div class="spec-row">
+                            <span>Battery</span>
+                            <span>40 hours</span>
+                        </div>
+                        <div class="spec-row">
+                            <span>Driver</span>
+                            <span>40mm Neodymium</span>
+                        </div>
+                        <div class="spec-row">
+                            <span>Weight</span>
+                            <span>220g</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="reviews">
+                    <div class="reviews-section">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">RR</div>
+                                <span class="reviewer-name">Rahul R.</span>
+                                <span class="review-date">Verified Buyer - 2 days ago</span>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <p>"Sound quality is amazing! Battery lasts entire week. Worth every penny."</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">PS</div>
+                                <span class="reviewer-name">Priya S.</span>
+                                <span class="review-date">Verified Buyer - 5 days ago</span>
+                                <div class="review-stars">★★★★☆</div>
+                            </div>
+                            <p>"Great ANC for the price. Comfortable for long calls. Delivery was fast."</p>
+                        </div>
+                        <a href="#" class="write-review-btn">Write a Review</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">You might also like</h2>
+            <div class="products-slider">
+                <!-- Related products loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-store"></i>
+                        <span>Nav<span>Cart</span></span>
+                    </div>
+                    <p>India's fastest growing online marketplace. Quality products delivered with care.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="products.html">Products</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Customer Service</h4>
+                        <ul>
+                            <li><a href="#">Order Tracking</a></li>
+                            <li><a href="#">Returns</a></li>
+                            <li><a href="#">Shipping Info</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                            <li><a href="#">Return Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 NavCart India Pvt Ltd. All rights reserved. Made with ❤️ in India</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Product detail specific functionality
+        function addToCartDetail() {
+            // Add current product to cart
+            addToCart({target: document.querySelector('.add-cart-btn')});
+        }
+
+        function updateQuantity(change) {
+            let qty = parseInt(document.getElementById('quantity').value);
+            qty = Math.max(1, Math.min(10, qty + change));
+            document.getElementById('quantity').value = qty;
+        }
+
+        function buyNow() {
+            // Add to cart and redirect to checkout
+            addToCartDetail();
+            setTimeout(() => {
+                window.location.href = 'cart.html';
+            }, 500);
+        }
+
+        // Gallery functionality
+        document.querySelectorAll('.thumb').forEach(thumb => {
+            thumb.onclick = function() {
+                document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.image-placeholder').forEach(img => img.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelector(`.image-placeholder[data-img="${this.dataset.img}"]`).classList.add('active');
+            };
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+            };
+        });
+    </script>
+</body>
+</html>
+

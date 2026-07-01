@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - NavCart Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--primary:#6366f1;--success:#10b981;--dark:#0f172a;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-500:#64748b;--radius-xl:1.5rem}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Inter,sans-serif;background:var(--gray-100);color:var(--dark)}
+        .sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:var(--dark);color:white;padding:2rem 1.5rem}
+        .sidebar-logo{display:flex;align-items:center;gap:0.75rem;font-size:1.5rem;font-weight:800;margin-bottom:2rem}
+        .nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.875rem 1rem;border-radius:0.75rem;color:rgba(255,255,255,0.8);text-decoration:none;margin-bottom:0.5rem;transition:all 0.3s}
+        .nav-item:hover,.nav-item.active{background:rgba(255,255,255,0.1);color:white}
+        .main{margin-left:260px;padding:2rem}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+        .customers-table{background:white;border-radius:var(--radius-xl);overflow:auto;border:1px solid var(--gray-200)}
+        table{width:100%;border-collapse:collapse;min-width:700px}
+        th,td{padding:1rem;text-align:left;border-bottom:1px solid var(--gray-200)}
+        th{background:var(--gray-100);font-weight:600;color:var(--gray-500);font-size:0.875rem;text-transform:uppercase}
+        .avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#ec4899);display:flex;align-items:center;justify-content:center;color:white;font-weight:600}
+        @media(max-width:1024px){.sidebar{display:none}.main{margin-left:0}}
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="fas fa-shopping-bag" style="color:var(--primary)"></i> NavCart</div>
+        <nav>
+            <a href="admin-dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="admin-products.html" class="nav-item"><i class="fas fa-box"></i> Products</a>
+            <a href="admin-orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="admin-customers.html" class="nav-item active"><i class="fas fa-users"></i> Customers</a>
+            <a href="admin-suppliers.html" class="nav-item"><i class="fas fa-truck"></i> Suppliers</a>
+            <a href="admin-settings.html" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            <a href="index.html" class="nav-item"><i class="fas fa-store"></i> Store</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <h1>Customers</h1>
+            <div style="color:var(--gray-500);">Total: <strong id="totalCustomers">0</strong></div>
+        </div>
+
+        <div class="customers-table">
+            <table>
+                <thead>
+                    <tr><th>Customer</th><th>Email</th><th>Orders</th><th>Total Spent</th><th>Joined</th></tr>
+                </thead>
+                <tbody id="customersTableBody"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        if (!checkAdminAuth()) window.location.href = 'admin-login.html';
+
+        function loadCustomers() {
+            const orders = getOrders();
+            const customers = {};
+            orders.forEach(o => {
+                const key = o.customer?.email || 'guest';
+                if (!customers[key]) {
+                    customers[key] = {
+                        name: o.customer?.name || 'Guest',
+                        email: o.customer?.email || '-',
+                        orders: 0,
+                        spent: 0,
+                        date: o.date
+                    };
+                }
+                customers[key].orders++;
+                customers[key].spent += (o.total || 0);
+            });
+
+            const list = Object.values(customers);
+            document.getElementById('totalCustomers').textContent = list.length;
+            const tbody = document.getElementById('customersTableBody');
+
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:3rem;">No customers yet. Data will appear after orders are placed.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = list.map(c => `
+                <tr>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:1rem;">
+                            <div class="avatar">${c.name.charAt(0).toUpperCase()}</div>
+                            <div style="font-weight:600;">${c.name}</div>
+                        </div>
+                    </td>
+                    <td>${c.email}</td>
+                    <td>${c.orders}</td>
+                    <td><strong>₹${c.spent.toLocaleString()}</strong></td>
+                    <td>${new Date(c.date).toLocaleDateString('en-IN')}</td>
+                </tr>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCustomers);
+    </script>
+</body>
+</html>
